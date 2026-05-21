@@ -31,8 +31,8 @@ Plan File: [2026-05-21-phase2-sidebar-webview.md](file:///C:/Users/Kasim%20Kazmi
 | Task / Feature | Files Involved | Status | Notes |
 | :--- | :--- | :--- | :--- |
 | **Task 1: Extension Config & VS Code API Mock** | `packages/vscode-extension/package.json`, `packages/vscode-extension/tsconfig.json`, `packages/vscode-extension/tests/mocks/vscode.ts` | **Complete** | Boilerplate layout and testing mocks |
-| **Task 2: SidebarProvider and Extension Lifecycle** | `packages/vscode-extension/src/SidebarProvider.ts`, `packages/vscode-extension/src/extension.ts`, `packages/vscode-extension/tests/SidebarProvider.test.ts` | **In Progress** | Registers view provider & tests message loop |
-| **Task 3: React Webview UI & Styling** | `packages/vscode-extension/src/webview/App.tsx`, `packages/vscode-extension/src/webview/App.css`, `packages/vscode-extension/src/webview/index.tsx` | **Not Started** | Interactive dashboard UI & VS Code CSS variable styling |
+| **Task 2: SidebarProvider and Extension Lifecycle** | `packages/vscode-extension/src/SidebarProvider.ts`, `packages/vscode-extension/src/extension.ts`, `packages/vscode-extension/tests/SidebarProvider.test.ts` | **Complete** | Registers view provider & tests message loop |
+| **Task 3: React Webview UI & Styling** | `packages/vscode-extension/src/webview/App.tsx`, `packages/vscode-extension/src/webview/App.css`, `packages/vscode-extension/src/webview/index.tsx` | **In Progress** | Interactive dashboard UI & VS Code CSS variable styling |
 | **Task 4: Bundle and Build Pipelines** | `package.json` (root), `packages/vscode-extension/dist/*` | **Not Started** | esbuild bundles and root workspace workspace tests |
 
 ---

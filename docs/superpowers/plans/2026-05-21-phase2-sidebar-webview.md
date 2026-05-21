@@ -134,7 +134,7 @@
 - Create: [packages/vscode-extension/src/extension.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/extension.ts)
 - Create: [packages/vscode-extension/tests/SidebarProvider.test.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/SidebarProvider.test.ts)
 
-- [ ] **Step 1: Write a failing test for SidebarProvider message handling**
+- [x] **Step 1: Write a failing test for SidebarProvider message handling**
   Create [packages/vscode-extension/tests/SidebarProvider.test.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/SidebarProvider.test.ts):
   ```typescript
   import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -175,11 +175,11 @@
   });
   ```
 
-- [ ] **Step 2: Run test and verify it fails**
+- [x] **Step 2: Run test and verify it fails**
   Run: `npm test --workspace=@superpowers/vscode-extension`
   Expected: Failure (SidebarProvider does not exist).
 
-- [ ] **Step 3: Implement SidebarProvider**
+- [x] **Step 3: Implement SidebarProvider**
   Create [packages/vscode-extension/src/SidebarProvider.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/SidebarProvider.ts):
   ```typescript
   import * as vscode from 'vscode';
@@ -248,7 +248,7 @@
   }
   ```
 
-- [ ] **Step 4: Hook SidebarProvider up in extension.ts**
+- [x] **Step 4: Hook SidebarProvider up in extension.ts**
   Create [packages/vscode-extension/src/extension.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/extension.ts):
   ```typescript
   import * as vscode from 'vscode';
@@ -267,11 +267,11 @@
   export function deactivate() {}
   ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
   Run: `npm test --workspace=@superpowers/vscode-extension`
   Expected: PASS
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
   ```bash
   git add packages/vscode-extension/src/SidebarProvider.ts packages/vscode-extension/src/extension.ts packages/vscode-extension/tests/SidebarProvider.test.ts
   git commit -m "feat(extension): implement SidebarProvider class and registers view provider"
