@@ -6,8 +6,9 @@
   "completed_tasks": [
     "Phase 1: Core MCP Server",
     "Task 1: Extension Configuration & VS Code API Mock Setup",
-    "Task 2: SidebarProvider and Extension Lifecycle"
+    "Task 2: SidebarProvider and Extension Lifecycle",
+    "Task 3: React Webview UI & Styling"
   ],
-  "in_progress_task": "Task 3: React Webview UI & Styling",
-  "next_step": "Step 1: Create React App Component"
+  "in_progress_task": "Task 4: Bundle and Build Pipelines",
+  "next_step": "Step 1: Compile Workspace Extension"
 }
