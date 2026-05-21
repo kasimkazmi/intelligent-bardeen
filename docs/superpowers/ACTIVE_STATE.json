@@ -4,8 +4,9 @@
   "active_branch": "feature/phase2-sidebar-webview",
   "last_verified_commit": "111fa3252988cbc5020be730bb20050e6ad93d31",
   "completed_tasks": [
-    "Phase 1: Core MCP Server"
+    "Phase 1: Core MCP Server",
+    "Task 1: Extension Configuration & VS Code API Mock Setup"
   ],
-  "in_progress_task": "Task 1: Extension Configuration & VS Code API Mock Setup",
-  "next_step": "Step 1: Create package.json"
+  "in_progress_task": "Task 2: SidebarProvider and Extension Lifecycle",
+  "next_step": "Step 1: Write a failing test for SidebarProvider message handling"
 }

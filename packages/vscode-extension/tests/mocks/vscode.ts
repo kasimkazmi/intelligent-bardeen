@@ -2,9 +2,15 @@ import { vi } from 'vitest';
 
 export const window = {
   showInformationMessage: vi.fn(),
-  createTerminal: vi.fn().mockReturnValue({
-    show: vi.fn(),
-    sendText: vi.fn()
+  terminals: [] as any[],
+  createTerminal: vi.fn().mockImplementation((name: string) => {
+    const term = {
+      name,
+      show: vi.fn(),
+      sendText: vi.fn()
+    };
+    window.terminals.push(term);
+    return term;
   }),
   registerWebviewViewProvider: vi.fn()
 };

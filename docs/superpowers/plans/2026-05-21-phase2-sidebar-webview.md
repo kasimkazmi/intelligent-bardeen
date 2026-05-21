@@ -17,7 +17,7 @@
 - Create: [packages/vscode-extension/tsconfig.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tsconfig.json)
 - Create: [packages/vscode-extension/tests/mocks/vscode.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/mocks/vscode.ts)
 
-- [ ] **Step 1: Create package.json**
+- [x] **Step 1: Create package.json**
   Define dependencies, workspaces links, activation events, and extension contribution points.
   Create [packages/vscode-extension/package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/package.json):
   ```json
@@ -73,7 +73,7 @@
   }
   ```
 
-- [ ] **Step 2: Create tsconfig.json**
+- [x] **Step 2: Create tsconfig.json**
   Create [packages/vscode-extension/tsconfig.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tsconfig.json):
   ```json
   {
@@ -93,7 +93,7 @@
   }
   ```
 
-- [ ] **Step 3: Create VS Code API mock for local unit tests**
+- [x] **Step 3: Create VS Code API mock for local unit tests**
   Create [packages/vscode-extension/tests/mocks/vscode.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/mocks/vscode.ts):
   ```typescript
   import { vi } from 'vitest';
@@ -119,7 +119,7 @@
   };
   ```
 
-- [ ] **Step 4: Commit Setup**
+- [x] **Step 4: Commit Setup**
   ```bash
   git add packages/vscode-extension/package.json packages/vscode-extension/tsconfig.json packages/vscode-extension/tests/mocks/vscode.ts
   git commit -m "chore(extension): setup extension package, tsconfig, and vitest mocks"
