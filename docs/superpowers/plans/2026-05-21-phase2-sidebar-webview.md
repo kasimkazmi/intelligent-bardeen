@@ -6,35 +6,36 @@
 
 **Architecture:** A standard VS Code Extension registering a Sidebar View Provider. It loads a React frontend inside an iframe Webview, leveraging the VS Code API messaging channel (`vscode.postMessage`) to send/receive commands, file updates, and run commands in the terminal.
 
-**Tech Stack:** TypeScript, VS Code Extension API (`vscode`), React, Vite.
+**Tech Stack:** TypeScript, VS Code Extension API (`vscode`), React, Vitest, esbuild.
 
 ---
 
-### Task 1: Extension Boilerplate and Sidebar View Provider
+### Task 1: Extension Configuration & VS Code API Mock Setup
 
 **Files:**
-- Create: `extension/package.json`
-- Create: `extension/src/extension.ts`
-- Create: `extension/src/SidebarProvider.ts`
+- Create: [packages/vscode-extension/package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/package.json)
+- Create: [packages/vscode-extension/tsconfig.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tsconfig.json)
+- Create: [packages/vscode-extension/tests/mocks/vscode.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/mocks/vscode.ts)
 
-- [ ] **Step 1: Create extension package.json**
-  Set up the VS Code extension manifest, contributing a sidebar container and view.
-  
-  Create `extension/package.json`:
+- [ ] **Step 1: Create package.json**
+  Define dependencies, workspaces links, activation events, and extension contribution points.
+  Create [packages/vscode-extension/package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/package.json):
   ```json
   {
-    "name": "superpowers-vscode-sidebar",
-    "displayName": "Superpowers Agent",
+    "name": "@superpowers/vscode-extension",
     "version": "1.0.0",
     "publisher": "kasim-kazmi",
     "engines": {
       "vscode": "^1.90.0"
     },
-    "categories": [
-      "AI"
-    ],
-    "activationEvents": [],
     "main": "./dist/extension.js",
+    "type": "module",
+    "scripts": {
+      "build:extension": "tsc -p tsconfig.json",
+      "build:webview": "esbuild src/webview/index.tsx --bundle --outfile=dist/webview.js --minify --platform=browser",
+      "build": "npm run build:extension && npm run build:webview",
+      "test": "vitest run"
+    },
     "contributes": {
       "viewsContainers": {
         "activitybar": [
@@ -55,22 +56,131 @@
         ]
       }
     },
-    "scripts": {
-      "compile": "tsc -p ./",
-      "watch": "tsc -watch -p ./"
+    "dependencies": {
+      "@superpowers/core": "*"
     },
-    "dependencies": {},
     "devDependencies": {
+      "@types/node": "^20.12.7",
+      "@types/react": "^18.3.3",
+      "@types/react-dom": "^18.3.0",
       "@types/vscode": "^1.90.0",
-      "typescript": "^5.4.5"
+      "esbuild": "^0.21.3",
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1",
+      "typescript": "^5.4.5",
+      "vitest": "^1.5.0"
     }
   }
   ```
 
-- [ ] **Step 2: Implement Sidebar View Provider**
-  Create the provider class that loads the HTML and sets up the message event listener.
-  
-  Create `extension/src/SidebarProvider.ts`:
+- [ ] **Step 2: Create tsconfig.json**
+  Create [packages/vscode-extension/tsconfig.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tsconfig.json):
+  ```json
+  {
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "jsx": "react-jsx"
+    },
+    "include": ["src/**/*"]
+  }
+  ```
+
+- [ ] **Step 3: Create VS Code API mock for local unit tests**
+  Create [packages/vscode-extension/tests/mocks/vscode.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/mocks/vscode.ts):
+  ```typescript
+  import { vi } from 'vitest';
+
+  export const window = {
+    showInformationMessage: vi.fn(),
+    createTerminal: vi.fn().mockReturnValue({
+      show: vi.fn(),
+      sendText: vi.fn()
+    })
+  };
+
+  export const Uri = {
+    joinPath: vi.fn().mockImplementation((base, ...paths) => ({
+      path: paths.join('/')
+    }))
+  };
+
+  export const workspace = {
+    fs: {
+      readFile: vi.fn()
+    }
+  };
+  ```
+
+- [ ] **Step 4: Commit Setup**
+  ```bash
+  git add packages/vscode-extension/package.json packages/vscode-extension/tsconfig.json packages/vscode-extension/tests/mocks/vscode.ts
+  git commit -m "chore(extension): setup extension package, tsconfig, and vitest mocks"
+  ```
+
+---
+
+### Task 2: SidebarProvider and Extension Lifecycle
+
+**Files:**
+- Create: [packages/vscode-extension/src/SidebarProvider.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/SidebarProvider.ts)
+- Create: [packages/vscode-extension/src/extension.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/extension.ts)
+- Create: [packages/vscode-extension/tests/SidebarProvider.test.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/SidebarProvider.test.ts)
+
+- [ ] **Step 1: Write a failing test for SidebarProvider message handling**
+  Create [packages/vscode-extension/tests/SidebarProvider.test.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/tests/SidebarProvider.test.ts):
+  ```typescript
+  import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+  // Mock vscode module before imports
+  vi.mock('vscode', () => import('./mocks/vscode.js'));
+
+  import * as vscode from 'vscode';
+  import { SidebarProvider } from '../src/SidebarProvider.js';
+
+  describe('SidebarProvider', () => {
+    let mockExtensionUri: any;
+
+    beforeEach(() => {
+      vi.clearAllMocks();
+      mockExtensionUri = { fsPath: '/test-path' };
+    });
+
+    it('creates terminal and runs command on runCommand message', async () => {
+      const provider = new SidebarProvider(mockExtensionUri);
+      const mockWebviewView: any = {
+        webview: {
+          options: {},
+          html: '',
+          onDidReceiveMessage: vi.fn().mockImplementation((callback) => {
+            // Trigger simulated message immediately
+            callback({ type: 'runCommand', value: 'npm run test' });
+            return { dispose: vi.fn() };
+          }),
+          asWebviewUri: vi.fn().mockReturnValue('mock-uri')
+        }
+      };
+
+      provider.resolveWebviewView(mockWebviewView, {} as any, {} as any);
+
+      expect(vscode.window.createTerminal).toHaveBeenCalledWith('Superpowers Runner');
+    });
+  });
+  ```
+
+- [ ] **Step 2: Run test and verify it fails**
+  Run: `npm test --workspace=@superpowers/vscode-extension`
+  Expected: Failure (SidebarProvider does not exist).
+
+- [ ] **Step 3: Implement SidebarProvider**
+  Create [packages/vscode-extension/src/SidebarProvider.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/SidebarProvider.ts):
   ```typescript
   import * as vscode from 'vscode';
 
@@ -116,6 +226,9 @@
     }
 
     private _getHtmlForWebview(webview: vscode.Webview) {
+      const scriptUri = webview.asWebviewUri(
+        vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview.js')
+      );
       return `<!DOCTYPE html>
         <html lang="en">
         <head>
@@ -123,28 +236,20 @@
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Superpowers Dashboard</title>
           <style>
-            body { font-family: sans-serif; padding: 15px; color: var(--vscode-foreground); }
-            button { background: var(--vscode-button-background); color: var(--vscode-button-foreground); border: none; padding: 8px 12px; cursor: pointer; }
-            button:hover { background: var(--vscode-button-hoverBackground); }
+            body { font-family: var(--vscode-font-family); color: var(--vscode-foreground); background-color: var(--vscode-sideBar-background); }
           </style>
         </head>
         <body>
-          <h2>Superpowers Workspace</h2>
-          <button onclick="runTest()">Run Tests</button>
-          <script>
-            const vscode = acquireVsCodeApi();
-            function runTest() {
-              vscode.postMessage({ type: 'runCommand', value: 'npm run test' });
-            }
-          </script>
+          <div id="root"></div>
+          <script src="${scriptUri}"></script>
         </body>
         </html>`;
     }
   }
   ```
 
-- [ ] **Step 3: Hook provider up in extension entry point**
-  Create `extension/src/extension.ts`:
+- [ ] **Step 4: Hook SidebarProvider up in extension.ts**
+  Create [packages/vscode-extension/src/extension.ts](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/extension.ts):
   ```typescript
   import * as vscode from 'vscode';
   import { SidebarProvider } from './SidebarProvider.js';
@@ -162,57 +267,30 @@
   export function deactivate() {}
   ```
 
-- [ ] **Step 4: Verify compiling**
-  Compile the extension typescript files using:
-  Run: `npx tsc -p ./extension/tsconfig.json` (assume a standard tsconfig.json is placed in extension folder)
-  Expected output: Success with no type errors.
+- [ ] **Step 5: Run tests to verify they pass**
+  Run: `npm test --workspace=@superpowers/vscode-extension`
+  Expected: PASS
 
-- [ ] **Step 5: Commit changes**
-  Run:
+- [ ] **Step 6: Commit**
   ```bash
-  git add extension/package.json extension/src/SidebarProvider.ts extension/src/extension.ts
-  git commit -m "feat(extension): scaffold VS Code sidebar provider and message loop"
+  git add packages/vscode-extension/src/SidebarProvider.ts packages/vscode-extension/src/extension.ts packages/vscode-extension/tests/SidebarProvider.test.ts
+  git commit -m "feat(extension): implement SidebarProvider class and registers view provider"
   ```
 
 ---
 
-### Task 2: React Dashboard Interface & Inter-Process Communication
+### Task 3: React Webview UI & Styling
 
 **Files:**
-- Modify: `extension/src/SidebarProvider.ts`
-- Create: `extension/src/webview/App.tsx`
-- Create: `extension/src/webview/index.tsx`
+- Create: [packages/vscode-extension/src/webview/App.tsx](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/webview/App.tsx)
+- Create: [packages/vscode-extension/src/webview/App.css](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/webview/App.css)
+- Create: [packages/vscode-extension/src/webview/index.tsx](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/webview/index.tsx)
 
-- [ ] **Step 1: Update Sidebar Provider HTML to point to dynamic compiled JS**
-  Modify `extension/src/SidebarProvider.ts` to read compiled React scripts from the build directory:
-  ```typescript
-  // Replace _getHtmlForWebview implementation to reference react compiled script paths
-  private _getHtmlForWebview(webview: vscode.Webview) {
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview.js')
-    );
-    return `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <title>Superpowers Dashboard</title>
-        <style>
-          body { font-family: var(--vscode-font-family); color: var(--vscode-foreground); background-color: var(--vscode-sideBar-background); }
-          .step-card { border: 1px solid var(--vscode-panel-border); padding: 10px; margin-bottom: 8px; border-radius: 4px; }
-        </style>
-      </head>
-      <body>
-        <div id="root"></div>
-        <script src="${scriptUri}"></script>
-      </body>
-      </html>`;
-  }
-  ```
-
-- [ ] **Step 2: Implement React App with task list state**
-  Create `extension/src/webview/App.tsx` containing interactive checkboxes and state management for active steps:
+- [ ] **Step 1: Create React App Component**
+  Create [packages/vscode-extension/src/webview/App.tsx](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/webview/App.tsx):
   ```tsx
-  import React, { useState, useEffect } from 'react';
+  import React, { useState } from 'react';
+  import './App.css';
 
   interface ChecklistItem {
     id: string;
@@ -229,8 +307,8 @@
     const [currentStep, setCurrentStep] = useState<Step>({
       title: 'Step 1: Write a Failing Test',
       checklist: [
-        { id: '1', text: 'Write a test file under tests/', completed: false },
-        { id: '2', text: 'Verify test fails running npm test', completed: false }
+        { id: 'item-1', text: 'Write a test file under tests/', completed: false },
+        { id: 'item-2', text: 'Verify test fails running npm test', completed: false }
       ]
     });
 
@@ -239,50 +317,190 @@
         item.id === itemId ? { ...item, completed: !item.completed } : item
       );
       setCurrentStep({ ...currentStep, checklist: updatedChecklist });
-      // Notify VS Code host
-      (window as any).vscode?.postMessage({ type: 'itemToggled', itemId });
+      
+      // Post event back to VS Code Extension host
+      const vscode = (window as any).acquireVsCodeApi ? (window as any).acquireVsCodeApi() : null;
+      if (vscode) {
+        vscode.postMessage({ type: 'onInfo', value: `Checked item: ${itemId}` });
+      }
+    };
+
+    const triggerTestRun = () => {
+      const vscode = (window as any).acquireVsCodeApi ? (window as any).acquireVsCodeApi() : null;
+      if (vscode) {
+        vscode.postMessage({ type: 'runCommand', value: 'npm run test' });
+      }
     };
 
     return (
-      <div style={{ padding: '10px' }}>
-        <h3>Active Phase: TDD Workflow</h3>
-        <div className="step-card">
-          <h4>{currentStep.title}</h4>
-          {currentStep.checklist.map(item => (
-            <div key={item.id} style={{ display: 'flex', gap: '8px', margin: '4px 0' }}>
-              <input
-                type="checkbox"
-                checked={item.completed}
-                onChange={() => toggleItem(item.id)}
-              />
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
+      <div className="container">
+        <header className="header">
+          <h3>Superpowers Dashboard</h3>
+          <span className="subtitle">Workflow State Tracker</span>
+        </header>
+
+        <section className="step-card">
+          <h4 className="step-title">{currentStep.title}</h4>
+          <div className="checklist">
+            {currentStep.checklist.map(item => (
+              <label key={item.id} className="checklist-item">
+                <input
+                  type="checkbox"
+                  checked={item.completed}
+                  onChange={() => toggleItem(item.id)}
+                />
+                <span className={item.completed ? 'completed-text' : ''}>{item.text}</span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <footer className="action-footer">
+          <button className="btn btn-primary" onClick={triggerTestRun}>
+            Run Local Test Suite
+          </button>
+        </footer>
       </div>
     );
   }
   ```
 
-- [ ] **Step 3: Implement Webview entrypoint**
-  Create `extension/src/webview/index.tsx`:
+- [ ] **Step 2: Create React App styling for rich native theme integration**
+  Create [packages/vscode-extension/src/webview/App.css](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/webview/App.css):
+  ```css
+  body {
+    padding: 12px;
+    margin: 0;
+    font-family: var(--vscode-font-family, sans-serif);
+    color: var(--vscode-foreground, #cccccc);
+    background-color: var(--vscode-sideBar-background, #1e1e1e);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--vscode-panel-border, #333333);
+    padding-bottom: 8px;
+  }
+
+  .header h3 {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: var(--vscode-descriptionForeground, #888888);
+  }
+
+  .step-card {
+    background: var(--vscode-editor-background, #1e1e1e);
+    border: 1px solid var(--vscode-panel-border, #333333);
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .step-title {
+    margin: 0 0 10px 0;
+    color: var(--vscode-activityBarBadge-background, #007acc);
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .checklist-item:hover {
+    opacity: 0.8;
+  }
+
+  .completed-text {
+    text-decoration: line-through;
+    color: var(--vscode-disabledForeground, #666666);
+  }
+
+  .btn {
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 500;
+    transition: background 0.15s ease;
+  }
+
+  .btn-primary {
+    background-color: var(--vscode-button-background, #007acc);
+    color: var(--vscode-button-foreground, #ffffff);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--vscode-button-hoverBackground, #0062a3);
+  }
+  ```
+
+- [ ] **Step 3: Create React DOM mount entrypoint**
+  Create [packages/vscode-extension/src/webview/index.tsx](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/packages/vscode-extension/src/webview/index.tsx):
   ```tsx
   import React from 'react';
   import { createRoot } from 'react-dom/client';
   import App from './App.js';
 
-  const root = createRoot(document.getElementById('root')!);
-  root.render(<App />);
+  const container = document.getElementById('root');
+  if (container) {
+    const root = createRoot(container);
+    root.render(<App />);
+  }
   ```
 
-- [ ] **Step 4: Setup webview compiler script and compile**
-  Configure webpack/vite/esbuild to compile `index.tsx` to `dist/webview.js`.
-  Run: `npx esbuild extension/src/webview/index.tsx --bundle --outfile=extension/dist/webview.js --minify --platform=browser`
-  Expected output: Success with compilation size report.
-
-- [ ] **Step 5: Commit changes**
-  Run:
+- [ ] **Step 4: Commit Webview source**
   ```bash
-  git add extension/src/webview/App.tsx extension/src/webview/index.tsx
-  git commit -m "feat(webview): build React checklist dashboard UI"
+  git add packages/vscode-extension/src/webview/App.tsx packages/vscode-extension/src/webview/App.css packages/vscode-extension/src/webview/index.tsx
+  git commit -m "feat(webview): build React checklist UI with VS Code variable mapping"
+  ```
+
+---
+
+### Task 4: Bundle and Build Pipelines
+
+**Files:**
+- Modify: [package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/package.json) (Root monorepo workspace mapping)
+
+- [ ] **Step 1: Compile Workspace Extension**
+  Compile extension typescript code and React webview bundle.
+  Run: `npm run build --workspace=@superpowers/vscode-extension`
+  Expected: Compiles with no errors and writes `dist/extension.js` and `dist/webview.js`.
+
+- [ ] **Step 2: Update monorepo root package.json to include extension workspace**
+  We must ensure the root packages know about `@superpowers/vscode-extension`.
+  Let's verify [package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/package.json) contains the workspace mapping.
+
+- [ ] **Step 3: Run root tests and verify complete integration**
+  Run: `npm test`
+  Expected: All 3 suites (core, mcp-server, vscode-extension) pass.
+
+- [ ] **Step 4: Update active workflow trackers**
+  Update `docs/superpowers/ACTIVE_WORKFLOW.md` and `docs/superpowers/ACTIVE_STATE.json`.
+
+- [ ] **Step 5: Final Commit**
+  ```bash
+  git add package.json docs/superpowers/ACTIVE_WORKFLOW.md docs/superpowers/ACTIVE_STATE.json
+  git commit -m "chore(root): finalize Phase 2 workspace setup and plan files"
   ```
