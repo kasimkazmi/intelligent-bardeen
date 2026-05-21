@@ -31,7 +31,19 @@
           "name": "Superpowers Dashboard"
         }
       ]
-    }
+    },
+    "chatParticipants": [
+      {
+        "id": "superpowers.chat",
+        "name": "superpowers",
+        "description": "Agentic workflows for TDD, brainstorming, and debugging",
+        "commands": [
+          { "name": "brainstorm", "description": "Initialize a design planning session" },
+          { "name": "tdd", "description": "Kick off a Test-Driven Development loop" },
+          { "name": "debug", "description": "Run root-cause analysis on test failures" }
+        ]
+      }
+    ]
   },
   "dependencies": {
     "@superpowers/core": "*"
