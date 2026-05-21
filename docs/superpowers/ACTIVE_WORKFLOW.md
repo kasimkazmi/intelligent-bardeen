@@ -5,12 +5,12 @@ This document maintains the active development state, completed milestones, and 
 ---
 
 ## 1. Project Global State
-*   **Active Project:** Phase 2 (VS Code Sidebar Webview Extension)
-*   **Active Git Branch:** `feature/phase2-sidebar-webview`
+*   **Active Project:** Phase 3 (VS Code Chat Participant)
+*   **Active Git Branch:** `feature/phase3-copilot-chat`
 *   **Monorepo Packages:**
     *   `packages/core`: Engine & AST parser (**Complete**)
     *   `packages/mcp-server`: MCP stdio server (**Complete**)
-    *   `packages/vscode-extension`: VS Code Sidebar Webview UI (**Active Phase**)
+    *   `packages/vscode-extension`: VS Code Sidebar Webview UI (**Complete**) + Chat Participant (**Active Phase**)
 
 ---
 
