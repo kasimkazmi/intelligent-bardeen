@@ -1,0 +1,86 @@
+body {
+  padding: 12px;
+  margin: 0;
+  font-family: var(--vscode-font-family, sans-serif);
+  color: var(--vscode-foreground, #cccccc);
+  background-color: var(--vscode-sideBar-background, #1e1e1e);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  border-bottom: 1px solid var(--vscode-panel-border, #333333);
+  padding-bottom: 8px;
+}
+
+.header h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground, #888888);
+}
+
+.step-card {
+  background: var(--vscode-editor-background, #1e1e1e);
+  border: 1px solid var(--vscode-panel-border, #333333);
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-title {
+  margin: 0 0 10px 0;
+  color: var(--vscode-activityBarBadge-background, #007acc);
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.checklist-item:hover {
+  opacity: 0.8;
+}
+
+.completed-text {
+  text-decoration: line-through;
+  color: var(--vscode-disabledForeground, #666666);
+}
+
+.btn {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--vscode-button-background, #007acc);
+  color: var(--vscode-button-foreground, #ffffff);
+}
+
+.btn-primary:hover {
+  background-color: var(--vscode-button-hoverBackground, #0062a3);
+}
