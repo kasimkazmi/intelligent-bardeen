@@ -1,0 +1,8 @@
+node_modules/
+dist/
+out/
+.vscode-test/
+.vite/
+.superpowers/sessions/
+*.log
+.DS_Store
