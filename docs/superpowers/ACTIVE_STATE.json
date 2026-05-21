@@ -2,7 +2,7 @@
   "active_project": "Superpowers VS Code Extension",
   "current_phase": 2,
   "active_branch": "feature/phase2-sidebar-webview",
-  "last_verified_commit": "b06244d19427b41311ee623b631737d7ef681a3b",
+  "last_verified_commit": "111fa3252988cbc5020be730bb20050e6ad93d31",
   "completed_tasks": [
     "Phase 1: Core MCP Server"
   ],
