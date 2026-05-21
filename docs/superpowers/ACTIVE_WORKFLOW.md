@@ -5,32 +5,48 @@ This document maintains the active development state, completed milestones, and 
 ---
 
 ## 1. Project Global State
-*   **Active Project:** Phase 1 (Core MCP Server)
-*   **Target Monorepo Structure:**
-    *   `packages/core`: Engine & AST parser (to be created)
-    *   `packages/mcp-server`: MCP protocol implementation (to be created)
-    *   `packages/vscode-extension`: VS Code Sidebar & Chat wrapper (to be created in Phase 2/3)
+*   **Active Project:** Phase 2 (VS Code Sidebar Webview Extension)
+*   **Active Git Branch:** `feature/phase2-sidebar-webview`
+*   **Monorepo Packages:**
+    *   `packages/core`: Engine & AST parser (**Complete**)
+    *   `packages/mcp-server`: MCP stdio server (**Complete**)
+    *   `packages/vscode-extension`: VS Code Sidebar Webview UI (**Active Phase**)
 
 ---
 
-## 2. Active Phase: Phase 1 (Core MCP Server)
-Plan File: [2026-05-21-phase1-mcp-server.md](file:///C:/Users/Kasim%20Kazmi/Documents/antigravity/intelligent-bardeen/docs/superpowers/plans/2026-05-21-phase1-mcp-server.md)
+## 2. Completed Milestones
+
+### Phase 1: Core Library & MCP Server
+*   **AST Parser:** Parses markdown files, frontmatter, steps, and checklist items.
+*   **Session Tracker:** Tracks checklist progress and saves checkpoints to `.superpowers/sessions/`.
+*   **MCP Server:** Exposes stdio tools `start_session` and `update_checklist`.
+*   **Tests:** 100% Vitest unit and integration coverage passing.
+
+---
+
+## 3. Active Phase: Phase 2 (VS Code Sidebar Extension)
+Plan File: [2026-05-21-phase2-sidebar-webview.md](file:///C:/Users/Kasim%20Kazmi/Documents/antigravity/intelligent-bardeen/docs/superpowers/plans/2026-05-21-phase2-sidebar-webview.md)
 
 ### Detailed Feature Status
 | Task / Feature | Files Involved | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| Monorepo Workspaces Configuration | `package.json`, `tsconfig.json` | **Complete** | Setup workspaces mapping to `packages/*` |
-| **Task 1: Setup & Parser** | `packages/core/package.json`, `packages/core/src/parser.ts` | *Not Started* | Requires TDD implementation |
-| **Task 2: State Tracker & Checkpoints** | `packages/core/src/tracker.ts` | *Not Started* | Requires state machine logic |
-| **Task 3: MCP Server Wrap** | `packages/mcp-server/src/server.ts` | *Not Started* | Setup stdio JSON-RPC transport |
-| **Task 4: Vitest Suite Integration** | `packages/core/tests/*` | *Not Started* | Unit tests for parser and tracker |
+| **Task 1: Extension Config & VS Code API Mock** | `packages/vscode-extension/package.json`, `packages/vscode-extension/tsconfig.json`, `packages/vscode-extension/tests/mocks/vscode.ts` | **Not Started** | Boilerplate layout and testing mocks |
+| **Task 2: SidebarProvider and Extension Lifecycle** | `packages/vscode-extension/src/SidebarProvider.ts`, `packages/vscode-extension/src/extension.ts`, `packages/vscode-extension/tests/SidebarProvider.test.ts` | **Not Started** | Registers view provider & tests message loop |
+| **Task 3: React Webview UI & Styling** | `packages/vscode-extension/src/webview/App.tsx`, `packages/vscode-extension/src/webview/App.css`, `packages/vscode-extension/src/webview/index.tsx` | **Not Started** | Interactive dashboard UI & VS Code CSS variable styling |
+| **Task 4: Bundle and Build Pipelines** | `package.json` (root), `packages/vscode-extension/dist/*` | **Not Started** | esbuild bundles and root workspace workspace tests |
 
 ---
 
-## 3. How to Resume Work
+## 4. Resumption and Handshake Protocol (How to Resume Work)
 
-1.  **Read this file (`docs/superpowers/ACTIVE_WORKFLOW.md`)** to find the current active phase and next step.
-2.  **Open the corresponding active plan file** (e.g. `docs/superpowers/plans/2026-05-21-phase1-mcp-server.md`).
-3.  Check the checkbox progress (`- [ ]` / `- [x]`) in the plan file.
-4.  Run `npm run test` from the root workspace to confirm that the existing test suite passes before implementing new code.
-5.  Perform the next checklist step, update files, write passing tests, and commit.
+1.  **Read this file (`docs/superpowers/ACTIVE_WORKFLOW.md`)** to find the current active phase and git branch.
+2.  Check the JSON-formatted state details in [ACTIVE_STATE.json](file:///C:/Users/Kasim%20Kazmi/Documents/antigravity/intelligent-bardeen/docs/superpowers/ACTIVE_STATE.json).
+3.  Ensure you are on the correct active branch:
+    ```bash
+    git status
+    ```
+4.  Run root tests to verify the baseline build integrity:
+    ```bash
+    npm test
+    ```
+5.  Open the active plan file and follow the checkboxes task-by-task. Make small commits after each step.

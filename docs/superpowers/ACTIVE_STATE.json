@@ -1,0 +1,11 @@
+{
+  "active_project": "Superpowers VS Code Extension",
+  "current_phase": 2,
+  "active_branch": "feature/phase2-sidebar-webview",
+  "last_verified_commit": "b06244d19427b41311ee623b631737d7ef681a3b",
+  "completed_tasks": [
+    "Phase 1: Core MCP Server"
+  ],
+  "in_progress_task": "Task 1: Extension Configuration & VS Code API Mock Setup",
+  "next_step": "Step 1: Create package.json"
+}
