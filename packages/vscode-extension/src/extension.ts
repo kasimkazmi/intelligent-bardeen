@@ -17,7 +17,28 @@ export function activate(context: vscode.ExtensionContext) {
   if (participant) {
     context.subscriptions.push(participant);
   }
+
+  // Action button commands — invoked when the user clicks inline buttons in chat
+  const commandMap: Record<string, string> = {
+    'superpowers.brainstorm': 'brainstorm',
+    'superpowers.tdd': 'tdd',
+    'superpowers.debug': 'debug',
+  };
+
+  for (const [commandId, slashCmd] of Object.entries(commandMap)) {
+    context.subscriptions.push(
+      vscode.commands.registerCommand(commandId, () => {
+        vscode.commands.executeCommand(
+          'workbench.panel.chat.view.copilot.focus'
+        );
+        vscode.commands.executeCommand('workbench.action.chat.open', {
+          query: `@superpowers /${slashCmd}`,
+        });
+      })
+    );
+  }
 }
 
 export function deactivate() {}
+
 

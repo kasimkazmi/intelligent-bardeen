@@ -34,3 +34,13 @@ export const workspace = {
     readFile: vi.fn()
   }
 };
+
+export const commands = {
+  registerCommand: vi.fn().mockReturnValue({ dispose: vi.fn() }),
+  executeCommand: vi.fn().mockResolvedValue(undefined),
+};
+
+// Stub so (vscode as any).chat?.createChatParticipant resolves to undefined safely
+export const chat = {
+  createChatParticipant: vi.fn().mockReturnValue(undefined),
+};
