@@ -1,7 +1,14 @@
 {
-  "name": "@superpowers/vscode-extension",
+  "name": "superpowers-vscode-extension",
+  "displayName": "Superpowers AI",
+  "description": "Agentic workflows for TDD, brainstorming, and debugging inside VS Code.",
   "version": "1.0.0",
   "publisher": "kasim-kazmi",
+  "categories": ["Machine Learning", "Other"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kasim-kazmi/superpowers"
+  },
   "engines": {
     "vscode": "^1.90.0"
   },
