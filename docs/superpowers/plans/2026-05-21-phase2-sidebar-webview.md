@@ -1,6 +1,6 @@
 # Phase 2: VS Code Sidebar Extension Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Create a VS Code Sidebar Webview extension displaying interactive checklists, session state, and terminal logs, with full VS Code API permissions to read/write files and run local test scripts.
 
@@ -483,23 +483,23 @@
 **Files:**
 - Modify: [package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/package.json) (Root monorepo workspace mapping)
 
-- [ ] **Step 1: Compile Workspace Extension**
+- [x] **Step 1: Compile Workspace Extension**
   Compile extension typescript code and React webview bundle.
   Run: `npm run build --workspace=@superpowers/vscode-extension`
   Expected: Compiles with no errors and writes `dist/extension.js` and `dist/webview.js`.
 
-- [ ] **Step 2: Update monorepo root package.json to include extension workspace**
+- [x] **Step 2: Update monorepo root package.json to include extension workspace**
   We must ensure the root packages know about `@superpowers/vscode-extension`.
   Let's verify [package.json](file:///C:/Users/Kasim%20Kasmi/Documents/antigravity/intelligent-bardeen/package.json) contains the workspace mapping.
 
-- [ ] **Step 3: Run root tests and verify complete integration**
+- [x] **Step 3: Run root tests and verify complete integration**
   Run: `npm test`
   Expected: All 3 suites (core, mcp-server, vscode-extension) pass.
 
-- [ ] **Step 4: Update active workflow trackers**
+- [x] **Step 4: Update active workflow trackers**
   Update `docs/superpowers/ACTIVE_WORKFLOW.md` and `docs/superpowers/ACTIVE_STATE.json`.
 
-- [ ] **Step 5: Final Commit**
+- [x] **Step 5: Final Commit**
   ```bash
   git add package.json docs/superpowers/ACTIVE_WORKFLOW.md docs/superpowers/ACTIVE_STATE.json
   git commit -m "chore(root): finalize Phase 2 workspace setup and plan files"

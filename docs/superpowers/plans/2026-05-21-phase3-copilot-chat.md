@@ -1,6 +1,6 @@
 # Phase 3: VS Code Chat Participant Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Register `@superpowers` as a native Chat Participant in VS Code Chat. It registers slash commands (`/brainstorm`, `/tdd`, `/debug`) and supports rich markdown rendering and inline action buttons inside the native chat stream.
 
@@ -17,7 +17,7 @@
 - Modify: `extension/src/extension.ts`
 - Create: `extension/src/chatHandler.ts`
 
-- [ ] **Step 1: Register Chat Participant in package.json**
+- [x] **Step 1: Register Chat Participant in package.json**
   Update `extension/package.json` to include the `chatParticipants` contribution point and commands:
   ```json
   // Add this block inside the existing "contributes" object
@@ -44,7 +44,7 @@
   ]
   ```
 
-- [ ] **Step 2: Create Chat Handler Router**
+- [x] **Step 2: Create Chat Handler Router**
   Create `extension/src/chatHandler.ts` to parse commands and direct traffic:
   ```typescript
   import * as vscode from 'vscode';
@@ -85,7 +85,7 @@
   }
   ```
 
-- [ ] **Step 3: Hook Chat Participant into Extension Activation**
+- [x] **Step 3: Hook Chat Participant into Extension Activation**
   Modify `extension/src/extension.ts` to register the participant on startup:
   ```typescript
   import * as vscode from 'vscode';
@@ -110,11 +110,11 @@
   export function deactivate() {}
   ```
 
-- [ ] **Step 4: Verify compiling**
+- [x] **Step 4: Verify compiling**
   Run: `npx tsc -p ./extension/tsconfig.json`
   Expected output: Compile successfully with no typescript errors.
 
-- [ ] **Step 5: Commit changes**
+- [x] **Step 5: Commit changes**
   Run:
   ```bash
   git add extension/package.json extension/src/chatHandler.ts extension/src/extension.ts
@@ -128,7 +128,7 @@
 **Files:**
 - Modify: `extension/src/chatHandler.ts`
 
-- [ ] **Step 1: Update Chat Handler to render inline action buttons**
+- [x] **Step 1: Update Chat Handler to render inline action buttons**
   Add interactive buttons that trigger local extension commands (e.g. running scripts or generating files) directly in the chat bubble.
   
   Modify `extension/src/chatHandler.ts`:
@@ -165,7 +165,7 @@
   }
   ```
 
-- [ ] **Step 2: Register Commands inside extension activation**
+- [x] **Step 2: Register Commands inside extension activation**
   Add command definitions to execute when chat buttons are clicked.
   
   Modify `extension/src/extension.ts`:
@@ -195,11 +195,11 @@
   }
   ```
 
-- [ ] **Step 3: Run full TypeScript compilation check**
+- [x] **Step 3: Run full TypeScript compilation check**
   Run: `npx tsc -p ./extension/tsconfig.json`
   Expected output: Compile successfully.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
   Run:
   ```bash
   git add extension/src/extension.ts extension/src/chatHandler.ts

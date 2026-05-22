@@ -1,6 +1,6 @@
 # Phase 1: Core MCP Server Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build the `@superpowers/core` TypeScript library and the Superpowers MCP Server to parse skills and expose standard JSON-RPC tools for agent workflows.
 
@@ -18,7 +18,7 @@
 - Create: `src/parser.ts`
 - Create: `tests/parser.test.ts`
 
-- [ ] **Step 1: Create package.json and tsconfig.json**
+- [x] **Step 1: Create package.json and tsconfig.json**
   Configure the TypeScript project with ESModules support and standard dependencies.
   
   Create `package.json`:
@@ -63,7 +63,7 @@
   }
   ```
 
-- [ ] **Step 2: Create a failing test for the parser**
+- [x] **Step 2: Create a failing test for the parser**
   Create `tests/parser.test.ts` with tests for frontmatter, step parsing, and checklist extraction.
   ```typescript
   import { describe, it, expect } from 'vitest';
@@ -78,8 +78,8 @@ rigid: true
 ---
 
 # Step 1: Write a failing test
-- [ ] Create test file
-- [ ] Run test to confirm fail
+- [x] Create test file
+- [x] Run test to confirm fail
 `;
       const result = parseSkillMarkdown(markdown);
       expect(result.name).toBe('Test-Driven Development');
@@ -92,11 +92,11 @@ rigid: true
   });
   ```
 
-- [ ] **Step 3: Run the test and verify it fails**
+- [x] **Step 3: Run the test and verify it fails**
   Run: `npm run test`
   Expected output: FAIL (parser module does not exist or functions not declared).
 
-- [ ] **Step 4: Implement the minimal parser to pass the test**
+- [x] **Step 4: Implement the minimal parser to pass the test**
   Create `src/parser.ts` to implement markdown splitting and frontmatter extraction:
   ```typescript
   export interface ChecklistItem {
@@ -147,8 +147,8 @@ rigid: true
           title: line.replace('# ', '').trim(),
           checklist: []
         };
-      } else if (line.startsWith('- [ ]') && currentStep) {
-        const text = line.replace('- [ ]', '').trim();
+      } else if (line.startsWith('- [x]') && currentStep) {
+        const text = line.replace('- [x]', '').trim();
         currentStep.checklist.push({
           id: `step-${currentStep.index}-item-${currentStep.checklist.length + 1}`,
           text,
@@ -162,7 +162,7 @@ rigid: true
   }
   ```
 
-- [ ] **Step 5: Run tests and commit**
+- [x] **Step 5: Run tests and commit**
   Run: `npm run test`
   Expected output: PASS
   Commit commands:
@@ -179,7 +179,7 @@ rigid: true
 - Create: `src/tracker.ts`
 - Create: `tests/tracker.test.ts`
 
-- [ ] **Step 1: Write a failing test for state management**
+- [x] **Step 1: Write a failing test for state management**
   Create `tests/tracker.test.ts` to test updating checklists, active steps, and checkpoint saving.
   ```typescript
   import { describe, it, expect, vi } from 'vitest';
@@ -213,11 +213,11 @@ rigid: true
   });
   ```
 
-- [ ] **Step 2: Run tests and verify failure**
+- [x] **Step 2: Run tests and verify failure**
   Run: `npm run test`
   Expected output: FAIL (tracker not defined).
 
-- [ ] **Step 3: Implement SessionTracker**
+- [x] **Step 3: Implement SessionTracker**
   Create `src/tracker.ts`:
   ```typescript
   import { Skill, SkillStep } from './parser.js';
@@ -273,11 +273,11 @@ rigid: true
   }
   ```
 
-- [ ] **Step 4: Run tests and confirm pass**
+- [x] **Step 4: Run tests and confirm pass**
   Run: `npm run test`
   Expected output: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
   Run:
   ```bash
   git add src/tracker.ts tests/tracker.test.ts
@@ -291,7 +291,7 @@ rigid: true
 **Files:**
 - Create: `src/server.ts`
 
-- [ ] **Step 1: Implement the MCP Server logic**
+- [x] **Step 1: Implement the MCP Server logic**
   Build the server that implements the `@modelcontextprotocol/sdk` and exposes the core engine functions over Stdio transport.
   
   Create `src/server.ts`:
@@ -401,11 +401,11 @@ rigid: true
   run().catch(console.error);
   ```
 
-- [ ] **Step 2: Run build and verify successful compilation**
+- [x] **Step 2: Run build and verify successful compilation**
   Run: `npm run build`
   Expected output: Compiles to `./dist` with no type errors.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
   Run:
   ```bash
   git add src/server.ts
