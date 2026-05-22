@@ -73,7 +73,8 @@ To build the extension from source:
 ## Developer
 
 Developed by **Kasim Kazmi**
-- GitHub: [kasim-kazmi](https://github.com/kasim-kazmi)
+- GitHub: [kasimkazmi](https://github.com/kasimkazmi)
+- Website: [kasimkazmi.com](https://kasimkazmi.com)
 
 ## License
 
