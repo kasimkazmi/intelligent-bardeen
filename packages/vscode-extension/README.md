@@ -4,19 +4,27 @@
 
 Superpowers AI is a comprehensive VS Code extension that brings advanced agentic coding capabilities right into your editor. Built as a monorepo, it features a native VS Code Sidebar Dashboard, a robust Model Context Protocol (MCP) server for tool integration, and seamless Copilot Chat participant integration.
 
+![Superpowers AI Demo](https://raw.githubusercontent.com/kasimkazmi/intelligent-bardeen/master/docs/demo.gif)
+*(Placeholder: Add your animated demo GIF here by recording your screen and placing it in `docs/demo.gif`)*
+
 ## Features
 
-- **🧠 Native Copilot Chat Participant (`@superpowers`)**
-  Engage with the Superpowers AI directly inside the VS Code Copilot Chat view using dedicated slash commands:
-  - `@superpowers /brainstorm`: Initialize a design planning session to explore features step-by-step.
-  - `@superpowers /tdd`: Kick off a Test-Driven Development loop. Generates failing tests and inline action buttons to execute them.
-  - `@superpowers /debug`: Paste your error logs for systematic root-cause analysis and debugging.
+### 🤖 Chat Participants (`@superpowers`)
+Superpowers AI seamlessly registers as a **Chat Participant** within VS Code's native Copilot Chat view. By typing `@superpowers`, you invoke our specialized AI agent which handles intent-specific workflows using slash commands.
+* **`/brainstorm`**: Start a design session where the AI asks clarifying questions before writing code.
+* **`/tdd`**: Kick off a Test-Driven Development loop. Generates failing tests and provides inline action buttons to execute and verify them.
+* **`/debug`**: Paste your error logs for systematic root-cause analysis.
 
-- **🎛️ Interactive Sidebar Dashboard**
-  A rich React-based webview in the VS Code Sidebar that tracks your workflow state. It integrates seamlessly with your VS Code theme using native CSS variables and allows you to trigger test suites and commands with one click.
+*(Placeholder: Add GIF demo of Copilot Chat here)*
 
-- **🔌 Model Context Protocol (MCP) Server**
-  An integrated standard stdio MCP Server that exposes your workspace tools (such as listing files, parsing ASTs, and tracking state) directly to AI agents.
+### 🗂️ View Containers & Views
+We leverage VS Code's **View Containers** to add a dedicated icon in your Activity Bar (the far left menu). Clicking this opens the **Superpowers Dashboard View**.
+* **Superpowers Dashboard (`superpowers-sidebar-view`)**: A rich React-based webview hosted inside the Sidebar. It dynamically tracks your project's active state, current phase, and active branches. It natively maps to your active VS Code theme using CSS variables, ensuring a beautiful, integrated aesthetic (whether you use dark mode or light mode).
+
+*(Placeholder: Add GIF demo of the Sidebar Dashboard here)*
+
+### 🔌 Model Context Protocol (MCP) Server
+An integrated standard stdio MCP Server that exposes your workspace tools (such as listing files, parsing ASTs, and tracking state) directly to AI agents, providing a unified architecture for local context gathering.
 
 ## Architecture
 
@@ -29,7 +37,7 @@ This project is structured as an npm monorepo with three core packages:
 ## Installation
 
 ### From the Marketplace
-*(Coming soon once published)*
+You can install this extension directly from the VS Code Marketplace. Search for **Superpowers AI** in the Extensions tab.
 
 ### Local Installation (VSIX)
 You can install the compiled `.vsix` file locally:
@@ -56,13 +64,11 @@ To build the extension from source:
    ```bash
    npm run build
    ```
-   This will compile the extension using `esbuild` and bundle the React webview into `dist/`.
 
 3. **Run tests:**
    ```bash
    npm test
    ```
-   This runs the Vitest test suites across all packages.
 
 4. **Package the extension:**
    ```bash
