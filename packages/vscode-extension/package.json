@@ -3,7 +3,7 @@
   "displayName": "Superpowers AI",
   "description": "Agentic workflows for TDD, brainstorming, and debugging inside VS Code.",
   "version": "1.0.0",
-  "publisher": "kasim-kazmi",
+  "publisher": "KasimDev",
   "categories": ["Machine Learning", "Other"],
   "repository": {
     "type": "git",
