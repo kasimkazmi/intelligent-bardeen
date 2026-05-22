@@ -70,6 +70,11 @@ To build the extension from source:
    npx @vscode/vsce package --no-dependencies
    ```
 
+## Developer
+
+Developed by **Kasim Kazmi**
+- GitHub: [kasim-kazmi](https://github.com/kasim-kazmi)
+
 ## License
 
 MIT License
